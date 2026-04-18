@@ -112,6 +112,8 @@ public:
     void PlaySound(const std::string_view& sound);
     bool ReadAudioData(std::vector<int16_t>& data, int sample_rate, int samples);
     void ResetDecoder();
+    /** Block until Ricky_boy robot finishes exclusive sound (no internal mutex held). */
+    void WaitWhileRobotExclusiveAudioHeld();
     void UpdateOutputTimestamp();
     void SetModelsList(srmodel_list_t* models_list);
     void SetHighPassFilter(HighPassFilter* high_pass_filter) { high_pass_filter_ = high_pass_filter; }

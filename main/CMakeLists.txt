@@ -1,5 +1,6 @@
 # Define source files
 set(SOURCES "audio/audio_codec.cc"
+            "audio/ricky_robot_audio_gate.cc"
             "audio/audio_service.cc"
             "audio/codecs/no_audio_codec.cc"
             "audio/codecs/box_audio_codec.cc"
@@ -598,6 +599,10 @@ elseif(CONFIG_BOARD_TYPE_ZHENGCHEN_CAM_ML307)
     set(BUILTIN_TEXT_FONT font_puhui_basic_20_4)
     set(BUILTIN_ICON_FONT font_awesome_20_4)
     set(DEFAULT_EMOJI_COLLECTION twemoji_64)
+elseif(CONFIG_BOARD_TYPE_RICKY_BOY)
+    set(BOARD_TYPE "ricky-boy")
+    set(BUILTIN_TEXT_FONT font_puhui_basic_14_1)
+    set(BUILTIN_ICON_FONT font_awesome_14_1)
 endif()
 
 file(GLOB BOARD_SOURCES

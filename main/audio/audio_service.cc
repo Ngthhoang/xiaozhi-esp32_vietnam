@@ -1,4 +1,5 @@
 #include "audio_service.h"
+#include "ricky_robot_audio_gate.h"
 #include <esp_log.h>
 #include <cstring>
 
@@ -333,6 +334,8 @@ void AudioService::AudioOutputTask() {
         audio_queue_cv_.notify_all();
         lock.unlock();
 
+        WaitWhileRobotExclusiveAudioHeld();
+
         if (!codec_->output_enabled()) {
             esp_timer_stop(audio_power_timer_);
             esp_timer_start_periodic(audio_power_timer_, AUDIO_POWER_CHECK_INTERVAL_MS * 1000);
@@ -391,7 +394,9 @@ void AudioService::OpusCodecTask() {
                 }
 
                 lock.lock();
-                audio_playback_queue_.push_back(std::move(task));
+                if (!RickyRobotAudioGateIsHeld()) {
+                    audio_playback_queue_.push_back(std::move(task));
+                }
                 audio_queue_cv_.notify_all();
             } else {
                 ESP_LOGE(TAG, "Failed to decode audio");
@@ -698,6 +703,12 @@ void AudioService::ResetDecoder() {
     audio_playback_queue_.clear();
     audio_testing_queue_.clear();
     audio_queue_cv_.notify_all();
+}
+
+void AudioService::WaitWhileRobotExclusiveAudioHeld() {
+    while (RickyRobotAudioGateIsHeld() && !service_stopped_) {
+        vTaskDelay(pdMS_TO_TICKS(15));
+    }
 }
 
 void AudioService::CheckAndUpdateAudioPowerState() {

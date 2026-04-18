@@ -1330,10 +1330,17 @@ void Application::SetupAudioPlayerCallback(AudioStreamPlayer* player) {
     player->SetStateCallback([this](AudioPlayerState old_state, AudioPlayerState new_state) {
         auto display = Board::GetInstance().GetDisplay();
         auto* disp = lv_display_get_default();
-        auto cf = lv_display_get_color_format(disp);
 
         if (new_state == AudioPlayerState::Playing) {
             EnsureIdleForMedia();
+
+            /* Headless boards (e.g. Ricky_boy / NoDisplay): no LVGL display — audio still plays via codec. */
+            if (!disp) {
+                ESP_LOGI(TAG, "Audio player Playing: no LVGL display, skip visualizer/spectrum UI");
+                return;
+            }
+
+            auto cf = lv_display_get_color_format(disp);
 
             if (cf != LV_COLOR_FORMAT_I1) {
                 Display* lcd  = display;

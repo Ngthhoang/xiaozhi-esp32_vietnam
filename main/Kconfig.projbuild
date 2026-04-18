@@ -458,6 +458,16 @@ choice BOARD_TYPE
     config BOARD_TYPE_AIPI_LITE
         bool "AIPI-Lite"
         depends on IDF_TARGET_ESP32S3
+    config BOARD_TYPE_RICKY_BOY
+        bool "Ricky_boy (robot cho DC motor + cầu H, ESP32-S3 mini)"
+        depends on IDF_TARGET_ESP32S3
+        help
+            Board headless (NoDisplay): không khởi tạo LCD/OLED, assets.bin không gói emoji.
+            Có thể bật lại màn hình sau: chỉnh ricky_boy.cc + CMakeLists (DEFAULT_EMOJI_COLLECTION) + config GPIO.
+    config PARTITION_TABLE_CUSTOM_FILENAME
+        default "partitions/v2/16m_otto_robot.csv"
+        depends on BOARD_TYPE_RICKY_BOY
+        string "Ricky_boy partition table: 16m_otto_robot.csv (app slots 4.5MB)"
 endchoice
 
 choice

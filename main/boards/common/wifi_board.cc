@@ -10,6 +10,7 @@
 #include <freertos/task.h>
 #include <esp_network.h>
 #include <esp_log.h>
+#include <esp_system.h>
 
 #include <font_awesome.h>
 #include <wifi_station.h>
@@ -172,9 +173,11 @@ void WifiBoard::ResetWifiConfiguration() {
         settings.SetInt("force_ap", 1);
     }
     GetDisplay()->ShowNotification(Lang::Strings::ENTERING_WIFI_CONFIG_MODE);
-    vTaskDelay(pdMS_TO_TICKS(1000));
-    // Reboot the device
-    esp_restart();
+    // Defer restart to the main event loop so MCP / audio can finish cleanly (avoids resets mid-tool-call).
+    Application::GetInstance().Schedule([]() {
+        vTaskDelay(pdMS_TO_TICKS(1000));
+        esp_restart();
+    });
 }
 
 std::string WifiBoard::GetDeviceStatusJson() {
