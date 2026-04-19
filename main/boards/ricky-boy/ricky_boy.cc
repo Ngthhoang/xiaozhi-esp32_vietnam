@@ -5,7 +5,9 @@
 #include "codecs/no_audio_codec.h"
 #include "config.h"
 #include "display/display.h"
+#include "led/led.h"
 #include "mcp_server.h"
+#include "ricky_status_led.h"
 #include "wifi_board.h"
 
 #include <wifi_station.h>
@@ -64,6 +66,11 @@ public:
     virtual Display* GetDisplay() override {
         static NoDisplay display;
         return &display;
+    }
+
+    Led* GetLed() override {
+        static RickyStatusLed led(RICKY_STATUS_LED_GPIO);
+        return &led;
     }
 };
 

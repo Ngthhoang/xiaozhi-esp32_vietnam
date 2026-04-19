@@ -49,6 +49,9 @@
 
 #define BOOT_BUTTON_GPIO GPIO_NUM_0
 
+/** WS2812 / NeoPixel trạng thái (RMT, 1 LED). */
+#define RICKY_STATUS_LED_GPIO GPIO_NUM_48
+
 #define RICKY_BOY_VERSION "1.0.0"
 
 #endif  // _BOARD_CONFIG_H_

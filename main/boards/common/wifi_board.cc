@@ -1,5 +1,6 @@
 #include "wifi_board.h"
 
+#include "board.h"
 #include "display.h"
 #include "application.h"
 #include "system_info.h"
@@ -109,6 +110,7 @@ void WifiBoard::StartNetwork() {
         // Debug log: Print IP address when WiFi connected
         std::string ip_address = WifiStation::GetInstance().GetIpAddress();
         ESP_LOGI(TAG, "WiFi connected successfully - SSID: %s, IP Address: %s", ssid.c_str(), ip_address.c_str());
+        Board::GetInstance().GetLed()->OnStateChanged();
     });
     wifi_station.Start();
 
