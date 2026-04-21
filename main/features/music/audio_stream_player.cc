@@ -83,19 +83,30 @@ AudioStreamPlayer::~AudioStreamPlayer()
 
 bool AudioStreamPlayer::StartStream(const std::string& source, AudioDecoderType type)
 {
-    if (source.empty()) {
+    auto trim_copy = [](const std::string& s) -> std::string {
+        const char* ws = " \t\r\n";
+        const size_t first = s.find_first_not_of(ws);
+        if (first == std::string::npos) {
+            return std::string();
+        }
+        const size_t last = s.find_last_not_of(ws);
+        return s.substr(first, last - first + 1);
+    };
+
+    std::string normalized_source = trim_copy(source);
+    if (normalized_source.empty()) {
         ESP_LOGE(TAG, "Stream source is empty");
         return false;
     }
 
-    ESP_LOGI(TAG, "StartStream: source=%s, type=%d", source.c_str(), (int)type);
+    ESP_LOGI(TAG, "StartStream: source=%s, type=%d", normalized_source.c_str(), (int)type);
 
     /* Stop previous session */
     StopStream();
 
     SetPlayerState(AudioPlayerState::Loading);
 
-    stream_url_           = source;
+    stream_url_           = normalized_source;
     decoder_type_         = type;
     is_paused_            = false;
     current_play_time_ms_ = 0;
