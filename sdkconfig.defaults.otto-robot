@@ -1,0 +1,7 @@
+# Otto Robot (ESP32-S3). Ghép khi build, ví dụ:
+# idf.py -DSDKCONFIG_DEFAULTS="sdkconfig.defaults;sdkconfig.defaults.esp32s3;sdkconfig.defaults.otto-robot" reconfigure build
+# Mạch Ricky/tim mini: giữ sdkconfig.defaults.ricky-boy, không xóa — quay lại sau.
+
+CONFIG_BOARD_TYPE_OTTO_ROBOT=y
+# Bắt buộc: 16m.csv chỉ có slot app 0x3f0000 — firmware Otto > slot đó. Otto dùng 0x480000/slot.
+CONFIG_PARTITION_TABLE_CUSTOM_FILENAME="partitions/v2/16m_otto_robot.csv"
