@@ -9,11 +9,11 @@
 
 // Active servo wiring
 #define LEFT_FOOT_PIN GPIO_NUM_13//
-#define LEFT_LEG_PIN GPIO_NUM_47// Xa
-#define LEFT_HAND_PIN GPIO_NUM_48//GPIO_NUM_48  ?
-#define RIGHT_FOOT_PIN GPIO_NUM_39// ngang GPIO_NUM_36 ? không dùng đc, dung ko lên
-#define RIGHT_LEG_PIN GPIO_NUM_38//
-#define RIGHT_HAND_PIN GPIO_NUM_40// ?
+#define LEFT_LEG_PIN GPIO_NUM_48// Xa
+#define LEFT_HAND_PIN GPIO_NUM_47//GPIO_NUM_48  ?
+#define RIGHT_FOOT_PIN GPIO_NUM_38// ngang GPIO_NUM_36 ? không dùng đc, dung ko lên
+#define RIGHT_LEG_PIN GPIO_NUM_40//
+#define RIGHT_HAND_PIN GPIO_NUM_39// ?
 
 // Legacy servo wiring reference:
 // RIGHT_LEG=39, RIGHT_FOOT=38, LEFT_LEG=17, LEFT_FOOT=18, LEFT_HAND=8, RIGHT_HAND=12
